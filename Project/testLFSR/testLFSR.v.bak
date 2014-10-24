@@ -1,0 +1,24 @@
+module testLFSR(
+    input clk,
+    input reset,
+    input ce,
+    output reg done);
+
+reg [2:0] counter;
+
+wire counter_eq;
+
+assign counter_eq = (counter == 3'h4);
+
+always @(posedge clk,posedge reset) begin
+    if(reset) begin
+        counter <= 0;
+        done <= 0;
+    end
+    else begin
+        if(ce)
+          counter <= counter_eq ? 3'h0 : counter + 1'b1;
+        done <= counter_eq;
+    end
+end
+endmodule

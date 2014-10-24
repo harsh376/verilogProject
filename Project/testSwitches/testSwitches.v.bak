@@ -1,0 +1,1 @@
+module testSwitches(SW,LEDR);

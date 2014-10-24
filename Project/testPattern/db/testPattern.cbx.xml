@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="testPattern">
+		<CBX_INST_ENTRY INSTANCE_NAME="|testPattern|ROM:inst6|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_fl71.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|testPattern|StROM:inst9|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_fs71.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|testPattern|loseROM:inst12|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_to71.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|testPattern|vga_adapter:VGA|altsyncram:VideoMemory" CBX_FILE_NAME="altsyncram_ptd1.tdf"/>
+	</PROJECT>
+</LOG_ROOT>

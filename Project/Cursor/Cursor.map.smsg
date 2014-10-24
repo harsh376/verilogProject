@@ -1,0 +1,2 @@
+Info (10281): Verilog HDL Declaration information at Cursor.v(59): object "y" differs only in case from object "Y" in the same scope
+Info (10281): Verilog HDL Declaration information at Cursor.v(53): object "resetn" differs only in case from object "Resetn" in the same scope

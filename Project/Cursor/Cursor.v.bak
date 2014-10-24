@@ -1,0 +1,147 @@
+module sketch
+	(
+		CLOCK_50,						//	On Board 50 MHz
+		KEY,							//	Push Button[3:0]
+		SW,								//	DPDT Switch[17:0]
+		VGA_CLK,   						//	VGA Clock
+		VGA_HS,							//	VGA H_SYNC
+		VGA_VS,							//	VGA V_SYNC
+		VGA_BLANK,						//	VGA BLANK
+		VGA_SYNC,						//	VGA SYNC
+		VGA_R,   						//	VGA Red[9:0]
+		VGA_G,	 						//	VGA Green[9:0]
+		VGA_B   						//	VGA Blue[9:0]
+	);
+	input			CLOCK_50;				//	50 MHz
+	input	[3:0]	KEY;					//	Button[3:0]
+	input	[17:0]	SW;						//	Switches[17:0]
+	output			VGA_CLK;   				//	VGA Clock
+	output			VGA_HS;					//	VGA H_SYNC
+	output			VGA_VS;					//	VGA V_SYNC
+	output			VGA_BLANK;				//	VGA BLANK
+	output			VGA_SYNC;				//	VGA SYNC
+	output	[9:0]	VGA_R;   				//	VGA Red[9:0]
+	output	[9:0]	VGA_G;	 				//	VGA Green[9:0]
+	output	[9:0]	VGA_B;   				//	VGA Blue[9:0]
+	
+	assign resetn = ~KEY[0];
+	assign writeEn = ~KEY[1];
+	assign _x = SW[7:0];
+	assign _y = SW[14:8];	
+	// Create the color, x, y and writeEn wires that are inputs to the controller.	
+	wire [2:0]count_x, count_y;
+	wire [7:0]count_xr;
+	wire [6:0]count_yr;
+	
+	wire resetn;
+	wire writeEn;
+	wire enTotal;
+	wire [2:0] color;
+	wire [7:0] x;
+	reg [7:0] reg_x;
+	wire [7:0] _x;
+	wire [6:0] y;
+	reg [6:0] reg_y;
+	wire [6:0] _y;
+	reg [2:0] reg_color;
+	
+	Draw inst1(.clk(CLOCK_50),.countX(count_x),.countY(count_y));
+	Reset inst2(.clk(CLOCK_50),.countX(count_xr),.countY(count_yr));
+	
+	always@(posedge CLOCK_50)//change it to @ posedge clock later
+	begin
+			if(resetn)
+			begin
+				reg_x = count_xr;
+				reg_y = count_yr;	
+				reg_color = 3'b000;
+			end	
+			else if(writeEn)
+			begin
+				reg_x = _x + count_x;
+				reg_y = _y + count_y;		
+				reg_color = SW[17:15];
+			end
+	end
+	
+	assign x = reg_x;
+	assign y = reg_y;
+	assign color = reg_color;
+	assign enTotal = resetn | writeEn;
+	
+	// Create an Instance of a VGA controller - there can be only one!
+	// Define the number of colours as well as the initial background
+	// image file (.MIF) for the controller.
+	vga_adapter VGA(
+			.resetn(KEY[0]),
+			.clock(CLOCK_50),
+			.colour(color),
+			.x(x),
+			.y(y),
+			.plot(enTotal),
+			/* Signals for the DAC to drive the monitor. */
+			.VGA_R(VGA_R),
+			.VGA_G(VGA_G),
+			.VGA_B(VGA_B),
+			.VGA_HS(VGA_HS),
+			.VGA_VS(VGA_VS),
+			.VGA_BLANK(VGA_BLANK),
+			.VGA_SYNC(VGA_SYNC),
+			.VGA_CLK(VGA_CLK));
+		defparam VGA.RESOLUTION = "160x120";
+		defparam VGA.MONOCHROME = "FALSE";
+		defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
+		defparam VGA.BACKGROUND_IMAGE = "";
+			
+	// Put your code here. Your code should produce signals x,y,color and writeEn
+	// for the VGA controller, in addition to any other functionality your design may require.	
+endmodule
+
+
+module Draw(clk,countX,countY);	
+	input clk;
+	output reg [2:0]countX;	
+	output reg [2:0]countY;
+	
+	always@(posedge clk)
+	begin	
+		if(countX==5)
+		begin
+			countX<=0;
+			
+			if(countY==5)
+				countY <= 0;
+			else
+				countY<=countY+1;	
+		end
+		else
+		begin
+			countX<=countX+1;
+		end
+		
+	end
+endmodule
+
+
+module Reset(clk,countX,countY);	
+	input clk;
+	output reg [7:0]countX;	
+	output reg [6:0]countY;
+	
+	always@(posedge clk)
+	begin	
+		if(countX==160)
+		begin
+			countX<=0;
+			
+			if(countY==120)
+				countY <= 0;
+			else
+				countY<=countY+1;	
+		end
+		else
+		begin
+			countX<=countX+1;
+		end
+	end
+endmodule

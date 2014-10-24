@@ -1,0 +1,5 @@
+Info (10281): Verilog HDL Declaration information at testPattern.v(80): object "y" differs only in case from object "Y" in the same scope
+Info (10281): Verilog HDL Declaration information at testPattern.v(74): object "resetn" differs only in case from object "Resetn" in the same scope
+Info (10281): Verilog HDL Declaration information at testPattern.v(139): object "won" differs only in case from object "Won" in the same scope
+Info (10281): Verilog HDL Declaration information at testPattern.v(147): object "lose" differs only in case from object "Lose" in the same scope
+Info (10281): Verilog HDL Declaration information at testPattern.v(201): object "level" differs only in case from object "Level" in the same scope

@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="Cursor">
+		<CBX_INST_ENTRY INSTANCE_NAME="|Cursor|vga_adapter:VGA|altsyncram:VideoMemory" CBX_FILE_NAME="altsyncram_ptd1.tdf"/>
+	</PROJECT>
+</LOG_ROOT>

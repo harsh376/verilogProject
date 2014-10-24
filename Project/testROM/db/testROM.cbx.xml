@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="testROM">
+		<CBX_INST_ENTRY INSTANCE_NAME="|testROM|ROM:inst1|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_fl71.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|testROM|vga_adapter:VGA|altsyncram:VideoMemory" CBX_FILE_NAME="altsyncram_ptd1.tdf"/>
+	</PROJECT>
+</LOG_ROOT>
